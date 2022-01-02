@@ -1,0 +1,71 @@
+﻿<form method="post" enctype="multipart/form-data" id="myform">
+    <div class="form-group">
+        <label for="exampleInputEmail1">Ad Soyad</label>
+        <input type="text" class="form-control" id="exampleInputEmail1" name="AdSoyad" placeholder="AdSoyad">
+        @*<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>*@
+    </div>
+    <div class="form-group">
+        <label for="Baslik">Baslik</label>
+        <input type="text" class="form-control" id="Baslik" name="Baslik" placeholder="Baslik">
+        @*<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>*@
+    </div>
+    <div class="form-group">
+        <label for="Baslik">Icerik</label>
+        <input type="text" class="form-control" id="Icerik" name="Icerik" placeholder="Icerik">
+        @*<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>*@
+    </div>
+    <div class="form-group">
+        <label for="Baslik">Icerik</label>
+        <input type="file" class="form-control" id="file" name="file">
+        <input type="button" class="btn btn-primary" id="ekle" value="Ekle" />
+        @*<small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>*@
+    </div>
+    <div id="check">
+
+    </div>
+    <br />
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+
+
+            $("#ekle").click(function () {
+
+                 var formData = new FormData(); //dosya alınması
+                formData.append('file', $('#file')[0].files[0]); // myFile is the input type="file" control
+
+                    console.log(formData)
+                var _url = '@Url.Action("UploadFile", "Home")';
+
+               
+                    $.ajax({
+                        url: _url,
+                        type: 'POST',
+                        data: formData,
+                        processData: false,  // tell jQuery not to process the data
+                        contentType: false,  // tell jQuery not to set contentType
+                        success: function (result) {//linesdaki veri
+                            console.log(result[0])
+                           
+                            $.each(result, function (k, v) {//linesdaki veri
+                                $('#check').append('<input type="checkbox"  name="EPosta" value="' + result[k] + '" />' + result[k] +'</br>');//checkboxlarolusturuldu.
+
+                            });
+                            //var resetBtn = document.getElementById("ekle");
+                            //resetBtn.disabled = "disabled";
+                        },
+                        error: function (jqXHR) {
+                        },
+                        complete: function (jqXHR, status) {
+                        }
+                    });
+              
+                
+
+            });
+        });
+    </script>
+    }
